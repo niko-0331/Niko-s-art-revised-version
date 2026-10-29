@@ -1,8 +1,8 @@
 'use strict';
 /* =====================================================
    静かな教室 ― 診断ホラーノベル
-   index.html / style.css / script.js だけで動きます（GitHub Pages対応）
-   キャラ画像: assets/shione.png, assets/hinata.png, assets/koharu.png を置くと自動で使われます
+  index.html / style.css / script.js だけで動きます（GitHub Pages対応）
+  キャラ画像: assets/images/ に所定のPNGを置くと自動で使われます
    ===================================================== */
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -152,9 +152,9 @@ if ('speechSynthesis' in window) { Voice.load(); speechSynthesis.onvoiceschanged
    キャラクター（画像が無ければシルエットSVGで表示）
    ===================================================== */
 const CHARS = {
-  shione: { name: '柊 汐音', hair: '#0a0a0a', style: 'long', img: 'assets/shione.png' },
-  hinata: { name: '一ノ瀬 日向', hair: '#3b2418', style: 'bob', img: 'assets/hinata.png' },
-  koharu: { name: '梅宮 小春', hair: '#0a0a0a', style: 'pony', img: 'assets/koharu.png' },
+  shione: { name: '柊 汐音', hair: '#0a0a0a', style: 'long', img: 'assets/images/shione.png' },
+  hinata: { name: '一ノ瀬 日向', hair: '#3b2418', style: 'bob', img: 'assets/images/hinata.png' },
+  koharu: { name: '梅宮 小春', hair: '#0a0a0a', style: 'pony', img: 'assets/images/koharu.png' },
   mother: { name: 'お母さん', hair: '#4a3a2a', style: 'bob', adult: true },
   teacher: { name: '先生', hair: '#222', style: 'short', adult: true },
   doctor: { name: '医師', hair: '#333', style: 'short', adult: true, white: true },
