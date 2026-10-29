@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>静かな教室　― 診断ホラーノベル ―</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- タイトル -->
+  <section id="title" class="screen active">
+    <div class="title-inner">
+      <p class="sub">診断ホラー × ノベルゲーム</p>
+      <h1>静かな教室</h1>
+      <p class="warn">
+        ⚠ 強い音・画面の点滅・驚かせる演出・心理的な恐怖表現があります。<br>
+        イヤホン推奨 / 暗い部屋・ひとりでのプレイは自己責任で。
+      </p>
+      <div class="opts">
+        <label><input type="checkbox" id="optVoice" checked> キャラボイス</label>
+        <label><input type="checkbox" id="optSound" checked> 効果音・BGM</label>
+        <label><input type="checkbox" id="optReduce"> 演出控えめ（点滅・ジャンプスケア軽減）</label>
+      </div>
+      <button id="btnStart" class="big">診断をはじめる</button>
+      <p class="small">5つの質問に答えると、あなたに合った物語が始まります。</p>
+    </div>
+  </section>
+
+  <!-- 診断 -->
+  <section id="quiz" class="screen">
+    <div class="quiz-inner">
+      <div id="qProgress">Q1 / 5</div>
+      <p id="qText"></p>
+      <div class="qbtns">
+        <button id="qYes" class="qbtn">はい</button>
+        <button id="qNo" class="qbtn">いいえ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="result" class="screen">
+    <div class="quiz-inner">
+      <h2>診断結果</h2>
+      <p id="rScore"></p>
+      <ul id="rTags"></ul>
+      <p id="rComment"></p>
+      <button id="btnGo" class="big">物語へ進む</button>
+    </div>
+  </section>
+
+  <!-- ゲーム本編 -->
+  <section id="game" class="screen">
+    <div id="bg" class="bg-black"></div>
+    <div id="chars"></div>
+    <div id="eyes"></div>
+    <div id="bloodv"></div>
+    <div id="darkv"></div>
+    <div id="staticv"></div>
+    <div id="flash"></div>
+    <div id="card"><div><h2 id="cardT"></h2><p id="cardS"></p></div></div>
+    <div id="choices"></div>
+    <div id="textbox">
+      <div id="nameTag"></div>
+      <div id="text"></div>
+      <div id="next">▼</div>
+    </div>
+    <div id="topbtns">
+      <button id="btnVoice" title="ボイスON/OFF">🗣</button>
+      <button id="btnSound" title="音ON/OFF">🔊</button>
+      <button id="btnHome" title="タイトルへ">⌂</button>
+    </div>
+  </section>
+
+  <!-- エンディング -->
+  <section id="ending" class="screen">
+    <div class="quiz-inner">
+      <h2 id="endTitle"></h2>
+      <div id="endBody"></div>
+      <div class="endbtns">
+        <button id="btnRetry" class="big">もう一度診断する</button>
+        <button data-route="good" class="route">A（汐音）の物語</button>
+        <button data-route="mid" class="route">シナリオ版の物語</button>
+        <button data-route="bad" class="route danger">バッドエンド</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D一人称パート -->
+  <div id="view3d" class="hidden">
+    <canvas id="c3d"></canvas>
+    <div id="vig3d"></div>
+    <div id="fade3d"></div>
+    <div id="sub3d"></div>
+    <div id="hint3d"></div>
+    <button id="fwd">▲<br>前進</button>
+  </div>
+
+  <canvas id="scare" class="hidden"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

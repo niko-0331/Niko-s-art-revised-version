@@ -1,0 +1,141 @@
+:root{--ink:#e9e4d6;--accent:#c4202c}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#000;color:var(--ink);overflow:hidden;
+  font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;user-select:none}
+button{font-family:inherit;cursor:pointer}
+#app{position:fixed;inset:0}
+.screen{position:absolute;inset:0;display:none}
+.screen.active{display:flex}
+.hidden{display:none!important}
+
+/* ---------- 共通UI ---------- */
+#title,#quiz,#result,#ending{align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 30%,#1c1620 0%,#07050a 70%);text-align:center;padding:20px;overflow:auto}
+.title-inner,.quiz-inner{max-width:680px;width:100%}
+h1{font-size:clamp(44px,12vw,92px);letter-spacing:.25em;margin:.1em 0 .3em;font-weight:400;
+  text-shadow:0 0 18px #7a0b14;animation:flick 5s infinite}
+h2{font-weight:400;letter-spacing:.15em}
+.sub{letter-spacing:.4em;color:#9a8f9d;margin:0}
+.warn{color:#d88;font-size:14px;line-height:1.8}
+.small{color:#8c8590;font-size:13px}
+.opts{display:flex;flex-direction:column;gap:8px;align-items:center;margin:18px 0;font-size:15px}
+.big{background:#2a0c10;color:var(--ink);border:1px solid #8a2430;padding:14px 38px;font-size:18px;
+  letter-spacing:.2em;border-radius:4px;transition:.2s}
+.big:hover{background:#4a1118;box-shadow:0 0 18px #8a2430}
+#qProgress{color:#9a8f9d;letter-spacing:.3em;margin-bottom:18px}
+#qText{font-size:clamp(18px,4.5vw,26px);line-height:1.9;min-height:6em;margin:0 0 26px}
+.qbtns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.qbtn{min-width:150px;padding:14px 26px;background:#15101a;color:var(--ink);border:1px solid #5b4a62;font-size:18px;border-radius:4px}
+.qbtn:hover{background:#2a2030;border-color:#c9a}
+#rTags{list-style:none;padding:0;margin:14px 0;line-height:2;color:#cfc6d3}
+#rComment{line-height:1.9;color:#bdb2c2}
+.endbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.route{background:#15101a;color:var(--ink);border:1px solid #5b4a62;padding:10px 16px;border-radius:4px}
+.route.danger{border-color:#8a2430;color:#e99}
+#endBody{line-height:2;text-align:left;font-size:15px;color:#d5ccd8;background:rgba(255,255,255,.04);
+  padding:16px 20px;border-radius:6px}
+
+/* ---------- ゲーム画面 ---------- */
+#game{overflow:hidden;background:#000;cursor:pointer}
+#game>div{position:absolute}
+#bg{inset:0;transition:filter .6s,background .8s}
+#chars{inset:0;pointer-events:none}
+.sprite{position:absolute;bottom:0;height:82%;transform:translateX(-50%);transition:opacity .5s,filter .6s,transform .4s;pointer-events:none}
+.sprite img,.sprite svg{height:100%;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(0,0,0,.6))}
+.sprite.left{left:22%}.sprite.center{left:50%}.sprite.right{left:78%}
+.sprite.sad{filter:brightness(.8) saturate(.7);transform:translateX(-50%) translateY(10px)}
+.sprite.scared{filter:brightness(.7) contrast(1.2);animation:tremble .12s infinite}
+.sprite.shadow{filter:brightness(0) drop-shadow(0 0 14px #900)}
+.sprite.fadeout{opacity:0}
+#nameTag{position:absolute;top:-17px;left:18px;background:#1b1420;border:1px solid rgba(255,255,255,.3);
+  padding:2px 18px;border-radius:4px;font-size:15px;letter-spacing:.15em;display:none}
+#textbox{left:3%;right:3%;bottom:3%;min-height:27%;background:rgba(10,8,14,.84);border:1px solid rgba(255,255,255,.25);
+  border-radius:10px;padding:20px 24px 24px;z-index:20}
+#text{font-size:clamp(16px,2.4vw,22px);line-height:1.95;min-height:4em;white-space:pre-wrap}
+#text.nar{color:#cfc9be}
+#text.think{font-style:italic;color:#b9c4d9}
+#next{position:absolute;right:20px;bottom:8px;animation:blink 1s infinite;font-size:14px}
+#topbtns{top:10px;right:10px;z-index:30;display:flex;gap:6px}
+#topbtns button{background:rgba(0,0,0,.55);color:#fff;border:1px solid #666;border-radius:6px;width:38px;height:38px;font-size:17px}
+#topbtns button.off{opacity:.4}
+#choices{inset:0;z-index:25;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(0,0,0,.45)}
+#choices button{min-width:min(86vw,520px);padding:14px 20px;background:rgba(20,14,26,.92);color:var(--ink);border:1px solid #9a8aa5;
+  font-size:clamp(15px,2.4vw,20px);border-radius:6px;line-height:1.6}
+#choices button:hover{background:#3b2a45}
+#card{inset:0;z-index:40;background:#000;display:none;align-items:center;justify-content:center;text-align:center}
+#card.on{display:flex;animation:cardin 1s}
+#card h2{font-size:clamp(24px,6vw,42px);letter-spacing:.2em;margin:0 0 .4em}
+#card p{color:#998;letter-spacing:.2em;margin:0}
+
+/* 演出レイヤー */
+#eyes{inset:0;z-index:10;pointer-events:none}
+.eye{position:absolute;width:54px;height:22px;border-radius:50%;background:#ece8d8;box-shadow:0 0 12px #000 inset,0 0 10px rgba(255,255,255,.3);
+  opacity:0;animation:eyein 2.6s forwards}
+.eye::after{content:"";position:absolute;left:50%;top:50%;width:16px;height:16px;margin:-8px;border-radius:50%;background:#000;box-shadow:0 0 0 3px #3a0000}
+#bloodv{inset:0;z-index:11;pointer-events:none;opacity:0;transition:opacity 1.2s;
+  background:radial-gradient(ellipse at center,rgba(0,0,0,0) 25%,rgba(120,0,0,.55) 75%,rgba(40,0,0,.95) 100%)}
+#bloodv.on{opacity:1;animation:pulse 1.2s infinite}
+#darkv{inset:0;z-index:12;background:#000;opacity:0;pointer-events:none;transition:opacity 1s}
+#darkv.on{opacity:.88}
+#staticv{inset:0;z-index:13;pointer-events:none;opacity:0;mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='.8'/></svg>")}
+#staticv.on{opacity:.35;animation:noise .15s steps(2) infinite}
+#flash{inset:0;z-index:50;background:#fff;opacity:0;pointer-events:none}
+
+/* 背景 */
+.bg-black{background:#000}
+.bg-classroom{background:linear-gradient(#cdd6dc 0%,#aab5bd 55%,#6e5b45 55%,#4e3f30 100%)}
+.bg-classroom::before{content:"";position:absolute;left:6%;top:10%;width:88%;height:30%;
+  background:repeating-linear-gradient(90deg,rgba(120,160,200,.55) 0 18%,rgba(60,50,40,.9) 18% 19.5%)}
+.bg-classroom::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;
+  background:repeating-linear-gradient(90deg,rgba(25,18,12,.65) 0 11%,transparent 11% 18%)}
+.bg-lunch{background:linear-gradient(#ffeccc 0%,#f4d9a9 55%,#a98557 55%,#7d6140 100%)}
+.bg-lunch::before{content:"";position:absolute;left:8%;top:9%;width:84%;height:32%;
+  background:repeating-linear-gradient(90deg,rgba(190,225,255,.9) 0 18%,rgba(90,70,50,.85) 18% 19.5%)}
+.bg-roof{background:linear-gradient(#8fc5ee,#d6ecfa 60%,#8d9399 60%,#6c7278)}
+.bg-corridor{background:linear-gradient(#59645c,#2c332e 60%,#1b1c18 60%)}
+.bg-toilet{background:linear-gradient(#9fb2b0,#6f8583 60%,#42524f 60%)}
+.bg-toilet::before{content:"";position:absolute;inset:12% 10% 38% 10%;
+  background:repeating-linear-gradient(90deg,#c8d4d2 0 16%,#546664 16% 17%)}
+.bg-bedroom{background:linear-gradient(#e8d9c5,#c9b79b 60%,#7a6650 60%)}
+.bg-kitchen{background:linear-gradient(#f4e8cf,#dcc9a3 60%,#8a6c47 60%)}
+.bg-street{background:linear-gradient(#9fd0f0,#e4f1f7 55%,#7c8083 55%,#555 100%)}
+.bg-staff{background:linear-gradient(#e7e0cf,#cabda0 60%,#6c5a43 60%)}
+.bg-hospital{background:linear-gradient(#f4f8fa,#dbe6ea 60%,#9fb0b6 60%)}
+.bg-night{background:linear-gradient(#1a2038,#0b0f1e 60%,#1a1612 60%)}
+.bg-sepia{background:linear-gradient(#c9b48e,#9c8460 60%,#5a4a33 60%)}
+.bg-blood{background:linear-gradient(#2a0000,#600000 50%,#100000)}
+#bg.dread{filter:saturate(.35) brightness(.65) contrast(1.15) hue-rotate(-12deg)}
+#bg.deep{filter:saturate(.1) brightness(.4) contrast(1.3) sepia(.4) hue-rotate(-35deg)}
+
+/* 3D */
+#view3d{position:absolute;inset:0;z-index:60;background:#000;touch-action:none}
+#c3d{width:100%;height:100%;display:block}
+#vig3d{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.85) 100%)}
+#fade3d{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .25s}
+#sub3d{position:absolute;left:0;right:0;bottom:16%;text-align:center;font-size:clamp(18px,3vw,28px);color:#e8d8d8;
+  text-shadow:0 0 8px #000,0 0 18px #a00;letter-spacing:.2em;pointer-events:none;min-height:1.5em}
+#hint3d{position:absolute;top:12px;left:0;right:0;text-align:center;font-size:13px;color:#aaa;pointer-events:none;line-height:1.7;padding:0 50px}
+#fwd{position:absolute;right:22px;bottom:24px;width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.4);color:#fff;font-size:14px;touch-action:none;display:none}
+@media (pointer:coarse){#fwd{display:block}}
+
+/* スケア */
+#scare{position:absolute;inset:0;z-index:100;width:100%;height:100%;background:#000}
+
+/* アニメ */
+@keyframes blink{50%{opacity:.15}}
+@keyframes flick{0%,92%,100%{opacity:1}93%{opacity:.3}95%{opacity:1}97%{opacity:.4}}
+@keyframes pulse{50%{opacity:.6}}
+@keyframes noise{0%{background-position:0 0}50%{background-position:-60px 40px}100%{background-position:30px -50px}}
+@keyframes eyein{0%{opacity:0}20%{opacity:1}55%{opacity:1;transform:scaleY(.1)}62%{transform:scaleY(1)}90%{opacity:1}100%{opacity:0}}
+@keyframes cardin{from{opacity:0}to{opacity:1}}
+@keyframes tremble{0%{transform:translateX(-50%) translate(-2px,1px)}50%{transform:translateX(-50%) translate(2px,-1px)}100%{transform:translateX(-50%) translate(-1px,2px)}}
+@keyframes shake{0%,100%{transform:translate(0,0)}15%{transform:translate(-14px,8px)}30%{transform:translate(12px,-10px)}45%{transform:translate(-10px,-6px)}60%{transform:translate(10px,8px)}75%{transform:translate(-6px,4px)}}
+@keyframes glitch{0%{transform:translate(0);filter:hue-rotate(0)}20%{transform:translate(-8px,2px) skewX(6deg);filter:hue-rotate(90deg) invert(.2)}
+  40%{transform:translate(10px,-3px) skewX(-8deg);filter:hue-rotate(-90deg)}60%{transform:translate(-4px,0);filter:invert(.4)}
+  80%{transform:translate(6px,3px) skewX(3deg);filter:hue-rotate(180deg)}100%{transform:translate(0);filter:none}}
+.shake{animation:shake .6s}
+.glitch{animation:glitch .9s}
+.softshake{animation:shake .25s;animation-iteration-count:2}
+@media (max-width:600px){#textbox{padding:16px 16px 22px}.sprite{height:70%}}
